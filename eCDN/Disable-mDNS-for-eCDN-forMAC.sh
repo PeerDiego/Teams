@@ -5,8 +5,8 @@
 # This script adds the URLs required for eCDN to the WebRtcLocalIpsAllowedUrls policy in Microsoft Edge for Mac.
 
 # Define the URLs to be added
-URL1="*.ecdn.teams.microsoft.com"
-URL2="https://teams.microsoft.com"
+URL1="*.ecdn.teams.cloud.microsoft"
+URL2="https://teams.cloud.microsoft"
 
 # Path to the policy file
 POLICY_FILE="/Library/Preferences/com.microsoft.edge.plist"

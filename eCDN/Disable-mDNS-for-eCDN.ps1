@@ -11,13 +11,13 @@ This script adds registry keys to a Windows computer for disabling WebRTC's IP o
 Without these registry keys (or other applicable configurations) the browsers will obfuscate the viewer's IP address which will ultimately prevent the eCDN client from connecting to peers.
 
 .PARAMETER eCDN_domain
-The eCDN domain to add to the registry keys. Default is *.ecdn.teams.microsoft.com and https://teams.microsoft.com
+The eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft
 
 .EXAMPLE
 .\Disable-mDNS-for-eCDN.ps1
 # This will add the default eCDN domains to the relevant registry keys
 .EXAMPLE
-.\Disable-mDNS-for-eCDN.ps1 -eCDN_domain "https://teams.microsoft.com"
+.\Disable-mDNS-for-eCDN.ps1 -eCDN_domain "https://teams.cloud.microsoft"
 
 .EXAMPLE
 .\Disable-mDNS-for-eCDN.ps1 -Enumerated
@@ -25,8 +25,9 @@ The eCDN domain to add to the registry keys. Default is *.ecdn.teams.microsoft.c
 
 .NOTES
 Must be run as an Administrator.
-As of June 1st 2023, the domain in this script was updated from *.ecdn.microsoft.com to *.ecdn.teams.microsoft.com
+As of June 1st 2023, the domain in this script was updated from *.ecdn.cloud.microsoft to *.ecdn.teams.cloud.microsoft
 By July 1st 2023, the domain migration should be complete and the old domain will be deprecated.
+Author: Diego Reategui
 
 .OUTPUTS
 None
@@ -40,7 +41,7 @@ This script is based on a version by Alexusa75 found here: https://github.com/al
 #>
 [cmdletbinding(DefaultParameterSetName="Default")] 
 param(
-    [Parameter(Mandatory=$false, ParameterSetName="Default", HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.microsoft.com and https://teams.microsoft.com")]
+    [Parameter(Mandatory=$false, ParameterSetName="Default", HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft")]
     [string]
     $eCDN_domain,
     [Parameter(ParameterSetName="Add all", HelpMessage="Enumerate all eCDN domains in the registry keys instead of using a wildcard (*)")]
@@ -55,14 +56,14 @@ if (-not [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).grou
 
 $all_eCDN_Domains = @{
     "Default" = @(
-        "*.ecdn.teams.microsoft.com"
+        "*.ecdn.teams.cloud.microsoft"
     )
     "Enumerated" = @(
-        "https://sdk.ecdn.teams.microsoft.com",
-        "https://sdk.msit.ecdn.teams.microsoft.com"
+        "https://sdk.ecdn.teams.cloud.microsoft",
+        "https://sdk.msit.ecdn.teams.cloud.microsoft"
     )
     "Constant" = @(
-        "https://teams.microsoft.com"
+        "https://teams.cloud.microsoft"
     )
 }
 

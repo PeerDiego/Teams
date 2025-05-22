@@ -3,7 +3,7 @@
 This script configures a Windows computer for Microsoft eCDN.
 
 .DESCRIPTION
-This script adds registry keys to a Windows computer for disabling WebRTC's IP obfuscation behavior solely for the Microsoft eCDN domains on the following browsers:
+This script adds registry keys to a Windows computer for disabling WebRTC's IP obfuscation behavior solely for the domains required by Microsoft eCDN on the following browsers:
     - Microsoft Edge
     - Google Chrome
     - Mozilla Firefox
@@ -11,13 +11,14 @@ This script adds registry keys to a Windows computer for disabling WebRTC's IP o
 Without these registry keys (or other applicable configurations) the browsers will obfuscate the viewer's IP address which will ultimately prevent the eCDN client from connecting to peers.
 
 .PARAMETER eCDN_domain
-The eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft
+The domain to add to the registry keys. Default is *.ecdn.teams.microsoft.com, *.ecdn.teams.cloud.microsoft, https://teams.microsoft.com and https://teams.cloud.microsoft
 
 .EXAMPLE
 .\Disable-mDNS-for-eCDN.ps1
 # This will add the default eCDN domains to the relevant registry keys
 .EXAMPLE
 .\Disable-mDNS-for-eCDN.ps1 -eCDN_domain "https://teams.cloud.microsoft"
+# This will add the specified domain to the relevant registry keys
 
 .EXAMPLE
 .\Disable-mDNS-for-eCDN.ps1 -Enumerated
@@ -25,9 +26,9 @@ The eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.micro
 
 .NOTES
 Must be run as an Administrator.
-As of June 1st 2023, the domain in this script was updated from *.ecdn.cloud.microsoft to *.ecdn.teams.cloud.microsoft
-By July 1st 2023, the domain migration should be complete and the old domain will be deprecated.
-Author: Diego Reategui
+As of May 22nd 2025, the upcoming .cloud.microsoft domain migration targets were added to this script.
+By July 1st 2025, the domain migration should be complete and the old domains will be deprecated.
+Author: Diego Reategui | Github username: PeerDiego
 
 .OUTPUTS
 None
@@ -44,7 +45,7 @@ param(
     [Parameter(
         Mandatory=$false, 
         ParameterSetName="Default", 
-        HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft")]
+        HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.microsoft.com, *.ecdn.teams.cloud.microsoft, https://teams.microsoft.com and https://teams.cloud.microsoft")]
     [string]
     $eCDN_domain,
     [Parameter(

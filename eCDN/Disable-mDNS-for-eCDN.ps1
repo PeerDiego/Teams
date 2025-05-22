@@ -41,10 +41,15 @@ This script is based on a version by Alexusa75 found here: https://github.com/al
 #>
 [cmdletbinding(DefaultParameterSetName="Default")] 
 param(
-    [Parameter(Mandatory=$false, ParameterSetName="Default", HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft")]
+    [Parameter(
+        Mandatory=$false, 
+        ParameterSetName="Default", 
+        HelpMessage="Specify the eCDN domain to add to the registry keys. Default is *.ecdn.teams.cloud.microsoft and https://teams.cloud.microsoft")]
     [string]
     $eCDN_domain,
-    [Parameter(ParameterSetName="Add all", HelpMessage="Enumerate all eCDN domains in the registry keys instead of using a wildcard (*)")]
+    [Parameter(
+        ParameterSetName="Add all", 
+        HelpMessage="Enumerate all eCDN domains in the registry keys instead of using a wildcard (*)")]
     [switch]
     $Enumerated = $false
 )
@@ -56,23 +61,27 @@ if (-not [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).grou
 
 $all_eCDN_Domains = @{
     "Default" = @(
+        "*.ecdn.teams.microsoft.com",
         "*.ecdn.teams.cloud.microsoft"
     )
     "Enumerated" = @(
+        "https://sdk.ecdn.teams.microsoft.com",
         "https://sdk.ecdn.teams.cloud.microsoft",
+        "https://sdk.msit.ecdn.teams.microsoft.com",
         "https://sdk.msit.ecdn.teams.cloud.microsoft"
     )
     "Constant" = @(
+        "https://teams.microsoft.com",
         "https://teams.cloud.microsoft"
     )
 }
 
 $Domains_to_add = switch ($eCDN_domain) {
     ({-not $eCDN_domain -and -not $Enumerated}) {
-        $all_eCDN_Domains["Default"] + $all_eCDN_Domains["Constant"]
+        $all_eCDN_Domains["Constant"] + $all_eCDN_Domains["Default"]
     }
     ({$Enumerated}) {
-        $all_eCDN_Domains["Enumerated"] + $all_eCDN_Domains["Constant"]
+        $all_eCDN_Domains["Constant"] + $all_eCDN_Domains["Enumerated"]
     }
     default { @($eCDN_domain) }
 }
